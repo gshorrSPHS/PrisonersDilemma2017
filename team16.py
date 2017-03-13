@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 ####
 # Each team's file must define four tokens:
 #     team_name: a string
@@ -5,10 +6,11 @@
 #     strategy_description: a string
 #     move: A function that returns 'c' or 'b'
 ####
+import random
+team_name = 'Team 16' # Only 10 chars displayed.
+strategy_name = 'Every five'
+strategy_description = 'Our plan is to collude five times in a row and choose randomly five times to either collude or betray. If our opponent betrays five times in a row then we will betray. if they alternate between collude and betray, then we will betray.' 
 
-team_name = 'The name the team gives to itself' # Only 10 chars displayed.
-strategy_name = 'The name the team gives to this strategy'
-strategy_description = 'How does this strategy decide?'
     
 def move(my_history, their_history, my_score, their_score):
     ''' Arguments accepted: my_history, their_history are strings.
@@ -25,10 +27,25 @@ def move(my_history, their_history, my_score, their_score):
     
     # Analyze my_history and their_history and/or my_score and their_score.
     # Decide whether to return 'c' or 'b'.
-    
-    return 'c'
+    count = 0 
+    choice = ['c' , 'b']
+    for i in my_history:
+	count += 1
+    if count >= 0 and count < 5:
+        return "c"
+    if count >= 5 and count < 10:
+	return random.choice(choice)
+	
 
-    
+
+    if their_history[len(their_history)-5: len(their_history)] == "bbbbb":
+	return "b"
+
+    if their_history[len(their_history)-5: len(their_history)] == "bcbcb" or their_history[len(their_history)-5: len(their_history)] == "cbcbc":
+	return "b"
+    else:
+        return "c"
+
 def test_move(my_history, their_history, my_score, their_score, result):
     '''calls move(my_history, their_history, my_score, their_score)
     from this module. Prints error if return value != result.
@@ -48,11 +65,11 @@ def test_move(my_history, their_history, my_score, their_score, result):
 if __name__ == '__main__':
      
     # Test 1: Betray on first move.
-    if test_move(my_history='',
-              their_history='', 
+    if test_move(my_history='cccccccccccbcbcbc',
+              their_history='ccccccccccccccccc', 
               my_score=0,
               their_score=0,
-              result='b'):
+              result='c'):
          print 'Test passed'
      # Test 2: Continue betraying if they collude despite being betrayed.
     test_move(my_history='bbbbbb',
