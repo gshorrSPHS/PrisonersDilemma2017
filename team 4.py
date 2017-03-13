@@ -8,7 +8,7 @@ from numpy import random
 ####
 
 team_name = 'Team 4' # Only 10 chars displayed.
-strategy_name = 'Passive Aggressive'
+strategy_name = 'Passive and a bit aggressive'
 strategy_description = 'Betray 30% and collude 70% of the time.'
     
 def move(my_history, their_history, my_score, their_score):
