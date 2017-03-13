@@ -5,18 +5,30 @@
 #     strategy_description: a string
 #     move: A function that returns 'c' or 'b'
 ####
-
+import random
 team_name = 'Pho Dac Biet' # Only 10 chars displayed.
 strategy_name = 'Above or Below?'
 strategy_description = 'It decides to collude or betray based on the percentage of the amount of the other teams betrays?'
     
 def move(my_history, their_history, my_score, their_score):
-    ''' Arguments accepted: my_history, their_history are strings.
-    my_score, their_score are ints.
-    
-    Make my move.
-    Returns 'c' or 'b'. 
-    '''
+    turn = int(len(my_history))
+    count = 0
+    percentage = float(count) / turn
+    if turn <= 5:
+        return 'b'
+    else:
+        for letter in their_history:
+            if letter == 'b':
+                count += 1
+    if percentage >= 0.5:
+        return 'b'
+    elif percentage < 0.5:
+        rng = random.randint(1,3)
+        if rng == 1:
+            return 'c'
+        else:
+            return 'b'
+
 
     # my_history: a string with one letter (c or b) per round that has been played with this opponent.
     # their_history: a string of the same length as history, possibly empty. 
