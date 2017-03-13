@@ -32,11 +32,13 @@ def move(my_history, their_history, my_score, their_score):
     if len(their_history) % 2 == 'b':
         return 'b'
     if 'bcbcbcbcbcbcb' in their_history:
-        return 'cbcbcbcbcbcbc'
+        return 'c'
+    if 'cbcbcbcbcbcc' in their_history:
+        return 'c'
     if 'bbbbbb' in their_history:
-        return 'bbbbb'
+        return 'b'
     if 'cccccc' in their_history:
-        return 'bbbbbb'
+        return 'b'
 def test_move(my_history, their_history, my_score, their_score, result):
     '''calls move(my_history, their_history, my_score, their_score)
     from this module. Prints error if return value != result.
