@@ -6,27 +6,123 @@
 #     move: A function that returns 'c' or 'b'
 ####
 
-team_name = 'The name the team gives to itself' # Only 10 chars displayed.
-strategy_name = 'The name the team gives to this strategy'
-strategy_description = 'How does this strategy decide?'
+team_name = 'print team' # Only 10 chars displayed.
+strategy_name = 'Tit for Tat and Pavlov'
+strategy_description = 'I would tell you our stategy description, but then I\'d have to kill you. '
     
 def move(my_history, their_history, my_score, their_score):
-    ''' Arguments accepted: my_history, their_history are strings.
-    my_score, their_score are ints.
-    
-    Make my move.
-    Returns 'c' or 'b'. 
-    '''
+    round = len(my_history) + 1
+    if round <= 5:
+        return 'c'
+    elif (round > 5) and (round <= 10):
+        return 'b'
+    elif (round >= 11 and round <= 34):
+  	betrayals = 0.0
+        count =0.0
+        for i in their_history[0:9]:
+            if i== 'b':
+                betrayals += 1.0
+            count +=1.0
+        if (float(betrayals)/count) > .74 or (float(betrayals)/count) < .26:
+            return tit_for_tat(my_history, their_history)
+        else:
+            return pavlov(my_history, their_history)
+    elif (round >= 35 and round <= 49):
+  	betrayals = 0.0
+        count =0.0
+        for i in their_history[10:33]:
+            if i== 'b':
+                betrayals += 1.0
+            count +=1.0
+        if (float(betrayals)/count) > .74 or (float(betrayals)/count) < .26:
+            return tit_for_tat(my_history, their_history)
+        else:
+            return pavlov(my_history, their_history)
+    elif (round >= 50 and round <= 74):
+        betrayals = 0.0
+        count =0.0
+        for i in their_history[35:48]:
+            if i == 'b':
+                betrayals += 1.0
+            count +=1.0
+            if (float(betrayals)/count) > .74 or (float(betrayals)/count) < .26:
+                return tit_for_tat(my_history, their_history)
+            else:
+                return pavlov(my_history, their_history)
+    elif (round >= 75 and round <= 99):
+        betrayals = 0.0
+        count =0.0
+        for i in their_history[50:73]:
+            if i == 'b':
+                betrayals += 1.0
+            count +=1.0
+            if (float(betrayals)/count) > .74 or (float(betrayals)/count) < .26:
+                return tit_for_tat(my_history, their_history)
+            else:
+                return pavlov(my_history, their_history)
+    elif (round >= 100 and round <= 124):
+        betrayals = 0.0
+        count =0.0
+        for i in their_history[75:98]:
+            if i == 'b':
+                betrayals += 1.0
+            count +=1.0
+            if (float(betrayals)/count) > .74 or (float(betrayals)/count) < .26:
+                return tit_for_tat(my_history, their_history)
+            else:
+                return pavlov(my_history, their_history)
+    elif (round >= 125 and round <= 149):
+        betrayals = 0.0
+        count =0.0
+        for i in their_history[100:123]:
+            if i == 'b':
+                betrayals += 1.0
+            count +=1.0
+            if (float(betrayals)/count) > .74 or (float(betrayals)/count) < .26:
+                return tit_for_tat(my_history, their_history)
+            else:
+                return pavlov(my_history, their_history)
+    elif (round >= 150 and round <= 174):
+        betrayals = 0.0
+        count =0.0
+        for i in their_history[125:148]:
+            if i == 'b':
+                betrayals += 1.0
+            count +=1.0
+            if (float(betrayals)/count) > .74 or (float(betrayals)/count) < .26:
+                return tit_for_tat(my_history, their_history)
+            else:
+                return pavlov(my_history, their_history)
+    elif (round >= 175 and round <= 200):
+        betrayals = 0.0
+        count =0.0
+        for i in their_history[150:173]:
+            if i == 'b':
+                betrayals += 1.0
+            count +=1.0
+            if (float(betrayals)/count) > .74 or (float(betrayals)/count) < .26:
+                return tit_for_tat(my_history, their_history)
+            else:
+                return pavlov(my_history, their_history)
+def pavlov(my_history, their_history):
+        TL = their_history[-1] 
+	ML = my_history[-1] 
+        if TL == 'c' and ML == 'b':
+            return 'b'
+        elif TL == 'b' and ML == 'b':
+            return 'c'
+        elif TL == 'c' and ML == 'c':
+            return 'c'
+        else:
+            return 'b' 
+def tit_for_tat(my_history, their_history): 
+        if their_history[-1] == 'c':
+            return 'c'
+        elif their_history[-1] == 'b':
+            return 'b'
 
-    # my_history: a string with one letter (c or b) per round that has been played with this opponent.
-    # their_history: a string of the same length as history, possibly empty. 
-    # The first round between these two players is my_history[0] and their_history[0].
-    # The most recent round is my_history[-1] and their_history[-1].
-    
-    # Analyze my_history and their_history and/or my_score and their_score.
-    # Decide whether to return 'c' or 'b'.
-    
-    return 'c'
+def test(my_history, their_history):
+    return 'give me money'
 
     
 def test_move(my_history, their_history, my_score, their_score, result):
@@ -52,10 +148,10 @@ if __name__ == '__main__':
               their_history='', 
               my_score=0,
               their_score=0,
-              result='b'):
+              result='c'):
          print 'Test passed'
      # Test 2: Continue betraying if they collude despite being betrayed.
-    test_move(my_history='bbbbbb',
+    test_move(my_history='cccccb',
               their_history='cccccc', 
               # Note the scores are for testing move().
               # The history and scores don't need to match unless
@@ -65,4 +161,4 @@ if __name__ == '__main__':
               # move('bbb', 'ccc', 0, 0) returns 'b'.
               my_score=0, 
               their_score=0,
-              result='b')             
+              result='c')             
