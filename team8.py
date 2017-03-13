@@ -5,11 +5,52 @@
 #     strategy_description: a string
 #     move: A function that returns 'c' or 'b'
 ####
+import random
 
-team_name = 'The name the team gives to itself' # Only 10 chars displayed.
-strategy_name = 'The name the team gives to this strategy'
-strategy_description = 'How does this strategy decide?'
-    
+team_name = 'M-K8 Dread' # Only 10 chars displayed.
+strategy_name = 'Evolution'
+strategy_description = 'Survival of the fittest strategies'
+
+biases = {"":0, "bb" : 0, "bc" : 0, "cb" : 2, "cc" : 3}
+
+beforeS = 0
+lastS = 0
+lastMove = ""
+
+def evolve(score, lastScore, beforeScore, lastMove):
+    lastDiff = lastScore - beforeScore
+    thisDiff = lastScore - score
+    if lastDiff < thisDiff:
+        biases[lastMove] += 1
+    else:
+        biases[lastMove] -= .75
+    beforeS = beforeScore
+    lastS = lastScore
+
+def getPerc(history, let):
+    tot = 0
+    cou = 0
+    for i in history:
+        if i == let:
+            cou+=1
+        tot+=1
+    return (1.0*cou)/tot
+
+def getMove(my_history, their_history, my_score, their_score):
+    if(getPerc(their_history,"c") > .80):
+        return "bb"
+    else:
+        if (their_history[-1] == "b"):
+            if biases["bb"] > biases["bc"]:
+                return "bb"
+            else:
+                return "bc"
+        elif (their_history[-1] == "c"):
+            if biases["cb"] > biases["cc"]:
+                return "cb"
+            else:
+                return "cc"
+
 def move(my_history, their_history, my_score, their_score):
     ''' Arguments accepted: my_history, their_history are strings.
     my_score, their_score are ints.
@@ -17,7 +58,27 @@ def move(my_history, their_history, my_score, their_score):
     Make my move.
     Returns 'c' or 'b'. 
     '''
-
+    
+    if (len(my_history) < 1):
+        if (random.random() < .5):
+            evolve(my_score,lastS,beforeS,"")
+            return 'b'
+        else:
+            evolve(my_score,lastS,beforeS,"")
+            return 'c'
+    elif (len(my_history) < 2):
+        if (random.random() < .5):
+            lastMove = their_history[-1] + my_history[-1]
+            evolve(my_score,lastS,beforeS,lastMove)
+            return 'b'
+        else:
+            lastMove = their_history[-1] + my_history[-1]
+            evolve(my_score,lastS,beforeS,lastMove)
+            return 'c'
+    else:
+        lastMove = their_history[-1] + my_history[-1]
+        evolve(my_score,lastS,beforeS,lastMove)
+        return getMove(my_history, their_history, my_score, their_score)[1]
     # my_history: a string with one letter (c or b) per round that has been played with this opponent.
     # their_history: a string of the same length as history, possibly empty. 
     # The first round between these two players is my_history[0] and their_history[0].
@@ -26,7 +87,7 @@ def move(my_history, their_history, my_score, their_score):
     # Analyze my_history and their_history and/or my_score and their_score.
     # Decide whether to return 'c' or 'b'.
     
-    return 'c'
+    return 'b'
 
     
 def test_move(my_history, their_history, my_score, their_score, result):
@@ -48,21 +109,21 @@ def test_move(my_history, their_history, my_score, their_score, result):
 if __name__ == '__main__':
      
     # Test 1: Betray on first move.
-    if test_move(my_history='',
-              their_history='', 
-              my_score=0,
-              their_score=0,
-              result='b'):
-         print 'Test passed'
+    #if test_move(my_history='',
+     #         their_history='', 
+     #         my_score=0,
+     #         their_score=0,
+     #         result='b'):
+     #    print 'Test passed'
      # Test 2: Continue betraying if they collude despite being betrayed.
-    test_move(my_history='bbbbbb',
-              their_history='cccccc', 
+    #test_move(my_history='cccccc',
+              their_history='bbbbbb', 
               # Note the scores are for testing move().
               # The history and scores don't need to match unless
               # that is relevant to the test of move(). Here,
               # the simulation (if working correctly) would have awarded 
               # 300 to me and -750 to them. This test will pass if and only if
               # move('bbb', 'ccc', 0, 0) returns 'b'.
-              my_score=0, 
-              their_score=0,
-              result='b')             
+              #my_score=0, 
+              #their_score=0,
+              #result='b')         
