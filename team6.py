@@ -1,4 +1,4 @@
-####
+  ####
 # Each team's file must define four tokens:
 #     team_name: a string
 #     strategy_name: a string
@@ -88,5 +88,3 @@ def move(my_history, their_history, my_score, their_score):
            #   their_score=0,
              # result='b') 
   
-          
-    
