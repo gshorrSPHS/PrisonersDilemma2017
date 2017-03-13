@@ -6,9 +6,9 @@
 #     move: A function that returns 'c' or 'b'
 ####
 
-team_name = 'Assasins' # Only 10 chars displayed.
-strategy_name = "Larry the Orca's Super Secret Strategy"
-strategy_description = 'Collude for the first 3 turns no matter what, collude evry time until they beray, thn collude one more time, then betray them, but if they have betrayed 3 times in a row before, then betray them immediately. And then betray them everytime after that, then collude once, and betray them again, and then collude every time after that, and repeat'
+team_name = 'Untchbls' # Only 10 chars displayed.
+strategy_name = "Larry's super secret strategy"
+strategy_description = 'Collude for the first 3 turns no matter what, collude evry time until they betray, then collude one more time, then betray them, but if they have betrayed 3 times in a row before, then betray them immediately. And then betray them everytime after that, then collude once, and betray them again, and then collude every time after that, and repeat'
     
 def move(my_history, their_history, my_score, their_score):
   # Arguments accepted: my_history, their_history are strings.
