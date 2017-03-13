@@ -6,9 +6,9 @@
 #     move: A function that returns 'c' or 'b'
 ####
 
-team_name = 'Untchbls' # Only 10 chars displayed.
+team_name = 'The Senses' # Only 10 chars displayed.
 strategy_name = "Larry's super secret strategy"
-strategy_description = 'Collude for the first 3 turns no matter what, collude evry time until they betray, then collude one more time, then betray them, but if they have betrayed 3 times in a row before, then betray them immediately. And then betray them everytime after that, then collude once, and betray them again, and then collude every time after that, and repeat'
+strategy_description = 'Collude for the first 3 turns no matter what, collude evry time until they beray, thn collude one more time, then betray them, but if they have betrayed 3 times in a row before, then betray them immediately. And then betray them everytime after that, then collude once, and betray them again, and then collude every time after that, and repeat'
     
 def move(my_history, their_history, my_score, their_score):
   # Arguments accepted: my_history, their_history are strings.
@@ -28,20 +28,16 @@ def move(my_history, their_history, my_score, their_score):
     
     #######ACTUAL CODE########
     
-    always_b = False
+    
     if len(my_history) == 0 or len(my_history) == 1 or len(my_history) == 2 or len(my_history) == 3:
         return 'c'
     else:
-        if always_b == True:
-            return 'b'
         if 'b' in their_history[-2]:
             return 'b'
         elif 'b' in their_history[-1] and 'bbb' in their_history:
             return 'b'
-            always_b = True
         elif 'c' in their_history[-1] and 'b' in their_history[-2]:
             return 'b'
-            always_b = False
         else:
             return 'c'
             
