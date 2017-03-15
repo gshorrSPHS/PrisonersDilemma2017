@@ -12,10 +12,8 @@ strategy_description = 'I would tell you our stategy description, but then I\'d 
     
 def move(my_history, their_history, my_score, their_score):
     round = len(my_history) + 1
-    if round <= 5:
+    if round <= 10:
         return 'c'
-    elif (round > 5) and (round <= 10):
-        return 'b'
     elif (round >= 11 and round <= 34):
   	betrayals = 0.0
         count =0.0
@@ -23,10 +21,7 @@ def move(my_history, their_history, my_score, their_score):
             if i== 'b':
                 betrayals += 1.0
             count +=1.0
-        if (float(betrayals)/count) > .74 or (float(betrayals)/count) < .26:
-            return tit_for_tat(my_history, their_history)
-        else:
-            return pavlov(my_history, their_history)
+        return tit_for_tat(my_history, their_history)
     elif (round >= 35 and round <= 49):
   	betrayals = 0.0
         count =0.0
