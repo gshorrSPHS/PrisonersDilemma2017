@@ -11,21 +11,24 @@ team_name = 'M-K8 Dread' # Only 10 chars displayed.
 strategy_name = 'Evolution'
 strategy_description = 'Survival of the fittest strategies'
 
-biases = {"":0, "bb" : 0, "bc" : 0, "cb" : 2, "cc" : 3}
+biases = {"":0, "bb" : 0, "bc" : -1, "cb" : 2, "cc" : 3}
 
 beforeS = 0
 lastS = 0
 lastMove = ""
 
 def evolve(score, lastScore, beforeScore, lastMove):
-    lastDiff = lastScore - beforeScore
+    lastDiff = beforeScore - lastScore
     thisDiff = lastScore - score
-    if lastDiff < thisDiff:
+    print str(lastDiff) + str(thisDiff)
+    if lastDiff > thisDiff:
         biases[lastMove] += 1
     else:
         biases[lastMove] -= .75
-    beforeS = beforeScore
-    lastS = lastScore
+    global beforeS
+    global lastS
+    beforeS = lastScore
+    lastS = score
 
 def getPerc(history, let):
     tot = 0
@@ -38,6 +41,8 @@ def getPerc(history, let):
 
 def getMove(my_history, their_history, my_score, their_score):
     if(getPerc(their_history,"c") > .80):
+        return "cb"
+    elif getPerc(their_history, "b") > .8:
         return "bb"
     else:
         if (their_history[-1] == "b"):
@@ -50,6 +55,8 @@ def getMove(my_history, their_history, my_score, their_score):
                 return "cb"
             else:
                 return "cc"
+        else:
+            return "bb"
 
 def move(my_history, their_history, my_score, their_score):
     ''' Arguments accepted: my_history, their_history are strings.
@@ -58,8 +65,16 @@ def move(my_history, their_history, my_score, their_score):
     Make my move.
     Returns 'c' or 'b'. 
     '''
-    
-    if (len(my_history) < 1):
+    global beforeS
+    global lastS
+    if len(my_history) == 0:
+        if (random.random() < .5):
+            evolve(my_score,lastS,beforeS,"")
+            return 'b'
+        else:
+            evolve(my_score,lastS,beforeS,"")
+            return 'c'
+    elif (len(my_history) < 1):
         if (random.random() < .5):
             evolve(my_score,lastS,beforeS,"")
             return 'b'
@@ -69,15 +84,22 @@ def move(my_history, their_history, my_score, their_score):
     elif (len(my_history) < 2):
         if (random.random() < .5):
             lastMove = their_history[-1] + my_history[-1]
+            print str(lastS) + " " + str(beforeS)
             evolve(my_score,lastS,beforeS,lastMove)
+            print biases
             return 'b'
         else:
             lastMove = their_history[-1] + my_history[-1]
+            print str(lastS) + " " + str(beforeS)
             evolve(my_score,lastS,beforeS,lastMove)
+            print biases
             return 'c'
     else:
+        print their_history[-1] + my_history[-1]
         lastMove = their_history[-1] + my_history[-1]
+        print str(lastS) + " " + str(beforeS)
         evolve(my_score,lastS,beforeS,lastMove)
+        print biases
         return getMove(my_history, their_history, my_score, their_score)[1]
     # my_history: a string with one letter (c or b) per round that has been played with this opponent.
     # their_history: a string of the same length as history, possibly empty. 
@@ -126,4 +148,4 @@ if __name__ == '__main__':
               # move('bbb', 'ccc', 0, 0) returns 'b'.
               #my_score=0, 
               #their_score=0,
-              #result='b')         
+              #result='b')   
