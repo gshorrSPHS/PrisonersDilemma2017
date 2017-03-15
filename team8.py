@@ -55,6 +55,8 @@ def getMove(my_history, their_history, my_score, their_score):
                 return "cb"
             else:
                 return "cc"
+        else:
+            return "bb"
 
 def move(my_history, their_history, my_score, their_score):
     ''' Arguments accepted: my_history, their_history are strings.
