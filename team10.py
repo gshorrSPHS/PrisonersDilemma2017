@@ -20,22 +20,11 @@ def move(my_history, their_history, my_score, their_score):
     Returns 'c' or 'b'. 
     '''
     
-    if len(my_history) < 10 or len(their_history) < 10:
-        return random.choice('bc')
-        
-    count = 0   
-    if len(their_history) >= 10:
-         for betray in their_history: 
-            if betray == 'b':
-                count += 1
-    
-    percent = float(count) / len(their_history)
-    if percent != 0.5:
+    if 'b' in their_history:
         return 'b'
+    elif 'c' in their_histoy:
+        return 'c'
     else:
-       return 'c'
-    
-    if their_history[-1] == 'b':
         return 'b'
         
     
@@ -65,6 +54,23 @@ if __name__ == '__main__':
               result='c'):
          print 'Test passed'
      
+    if len(my_history) < 10 or len(their_history) < 10:
+        return random.choice('bc')
+        
+    count = 0   
+    if len(their_history) >= 10:
+         for betray in their_history: 
+            if betray == 'b':
+                count += 1
+    
+    percent = float(count) / len(their_history)
+    if percent != 0.5:
+        return 'b'
+    else:
+       return 'c'
+    
+    if their_history[-1] == 'b':
+        return 'b'
 
     
     
